@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HRGMS Surat</title>
+</head>
+<body>
+  <h1>HRGMS Surat</h1>
+  <form id="upload-form">
+    <input type="file" id="image" accept="image/*" required>
+    <button type="submit">Upload</button>
+  </form>
+  <div id="result"></div>
+  <script>
+    document.getElementById('upload-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fileInput = document.getElementById('image');
+      const formData = new FormData();
+      formData.append('image', fileInput.files[0]);
+      document.getElementById('result').innerText = 'Processing...';
+      const response = await fetch('/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const result = await response.json();
+      document.getElementById('result').innerText = `Balance: ${result.balance}`;
+    });
+  </script>
+</body>
+</html>
